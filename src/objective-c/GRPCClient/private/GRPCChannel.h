@@ -77,5 +77,6 @@ struct grpc_channel_credentials;
                                      channelArgs:(nullable NSDictionary *)channelArgs;
 
 - (nullable grpc_call *)unmanagedCallWithPath:(nonnull NSString *)path
+                                    authority:(nonnull NSString *)authority
                               completionQueue:(nonnull GRPCCompletionQueue *)queue;
 @end

@@ -90,6 +90,7 @@
 @interface GRPCWrappedCall : NSObject
 
 - (instancetype)initWithHost:(NSString *)host
+                   authority:(nullable NSString *)authority
                         path:(NSString *)path NS_DESIGNATED_INITIALIZER;
 
 - (void)startBatchWithOperations:(NSArray *)ops errorHandler:(void(^)())errorHandler;
