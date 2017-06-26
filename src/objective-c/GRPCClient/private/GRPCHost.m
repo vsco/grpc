@@ -135,7 +135,7 @@ static GRPCConnectivityMonitor *connectivityMonitor = nil;
 }
 
 - (nullable grpc_call *)unmanagedCallWithPath:(NSString *)path
-                                    authority:(nullable NSString *)authority
+								   serverName:(nullable NSString *)serverName
                               completionQueue:(GRPCCompletionQueue *)queue {
   GRPCChannel *channel;
   // This is racing -[GRPCHost disconnect].
@@ -145,8 +145,8 @@ static GRPCConnectivityMonitor *connectivityMonitor = nil;
     }
     channel = _channel;
   }
-  NSString *callAuthority = authority ? authority : _address;
-  return [channel unmanagedCallWithPath:path authority:callAuthority completionQueue:queue];
+  NSString *name = serverName ? serverName : _address;
+  return [channel unmanagedCallWithPath:path serverName:name completionQueue:queue];
 }
 
 - (BOOL)setTLSPEMRootCerts:(nullable NSString *)pemRootCerts

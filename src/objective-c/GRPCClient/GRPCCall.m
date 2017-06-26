@@ -426,7 +426,7 @@ static NSMutableDictionary *callFlags;
 
   _responseWriteable = [[GRXConcurrentWriteable alloc] initWithWriteable:writeable];
 
-  _wrappedCall = [[GRPCWrappedCall alloc] initWithHost:_host authority:_authority path:_path];
+  _wrappedCall = [[GRPCWrappedCall alloc] initWithHost:_host serverName:_serverName path:_path];
   NSAssert(_wrappedCall, @"Error allocating RPC objects. Low memory?");
 
   [self sendHeaders:_requestHeaders];

@@ -196,9 +196,9 @@ static grpc_channel_args *BuildChannelArgs(NSDictionary *dictionary) {
 }
 
 - (grpc_call *)unmanagedCallWithPath:(NSString *)path
-                           authority:(NSString *)authority
+						  serverName:(NSString *)serverName
                      completionQueue:(GRPCCompletionQueue *)queue {
-  grpc_slice host = grpc_slice_from_copied_string(authority.UTF8String);
+  grpc_slice host = grpc_slice_from_copied_string(serverName.UTF8String);
   return grpc_channel_create_call(_unmanagedChannel,
                                   NULL, GRPC_PROPAGATE_DEFAULTS,
                                   queue.unmanagedQueue,
