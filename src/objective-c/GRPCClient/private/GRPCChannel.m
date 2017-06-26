@@ -198,13 +198,17 @@ static grpc_channel_args *BuildChannelArgs(NSDictionary *dictionary) {
 - (grpc_call *)unmanagedCallWithPath:(NSString *)path
                           serverName:(NSString *)serverName
                      completionQueue:(GRPCCompletionQueue *)queue {
-  grpc_slice host = grpc_slice_from_copied_string(serverName.UTF8String);
-  return grpc_channel_create_call(_unmanagedChannel,
-                                  NULL, GRPC_PROPAGATE_DEFAULTS,
-                                  queue.unmanagedQueue,
-                                  grpc_slice_from_copied_string(path.UTF8String),
-                                  &host,
-                                  gpr_inf_future(GPR_CLOCK_REALTIME), NULL);
+  grpc_slice host_slice = grpc_slice_from_copied_string(serverName.UTF8String);
+  grpc_slice path_slice = grpc_slice_from_copied_string(path.UTF8String);
+  grpc_call *call = grpc_channel_create_call(_unmanagedChannel,
+                                             NULL, GRPC_PROPAGATE_DEFAULTS,
+                                             queue.unmanagedQueue,
+                                             path_slice,
+                                             &host_slice,
+                                             gpr_inf_future(GPR_CLOCK_REALTIME), NULL);
+  grpc_slice_unref(host_slice);
+  grpc_slice_unref(path_slice);
+  return call;
 }
 
 @end
