@@ -90,6 +90,10 @@
 }
 
 - (void)dealloc {
+  for (int i = 0; i < _op.data.send_initial_metadata.count; i++) {
+    grpc_slice_unref(_op.data.send_initial_metadata.metadata[i].key);
+    grpc_slice_unref(_op.data.send_initial_metadata.metadata[i].value);
+  }
   gpr_free(_op.data.send_initial_metadata.metadata);
 }
 
@@ -251,7 +255,7 @@
 }
 
 - (instancetype)initWithHost:(NSString *)host
-                  serverName:(nullable NSString *)serverName
+                  serverName:(NSString *)serverName
                         path:(NSString *)path {
   if (!path || !host) {
     [NSException raise:NSInvalidArgumentException
@@ -316,7 +320,7 @@
 }
 
 - (void)dealloc {
-  grpc_call_destroy(_call);
+  grpc_call_unref(_call);
 }
 
 @end

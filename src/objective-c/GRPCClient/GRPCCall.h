@@ -179,7 +179,8 @@ extern id const kGRPCTrailersKey;
 @interface GRPCCall : GRXWriter
 
 /**
- * The server name for the RPC. If nil, the host name of the service object will be used instead.
+ * The authority for the RPC. If nil, the default authority will be used. This property must be nil
+ * when Cronet transport is enabled.
  */
 @property (atomic, readwrite) NSString *serverName;
 
@@ -257,6 +258,13 @@ extern id const kGRPCTrailersKey;
  * and the port number, for example @"localhost:5050".
  */
 + (void)setCallSafety:(GRPCCallSafety)callSafety host:(NSString *)host path:(NSString *)path;
+
+/**
+ * Set the dispatch queue to be used for callbacks.
+ *
+ * This configuration is only effective before the call starts.
+ */
+- (void)setResponseDispatchQueue:(dispatch_queue_t)queue;
 
 // TODO(jcanizales): Let specify a deadline. As a category of GRXWriter?
 @end
